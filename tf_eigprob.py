@@ -45,3 +45,4 @@ for i, n in enumerate(N):
     print(f'[GPU] {n:>4}x{n:<4} matrix: {time_arr[i]:7.4f} seconds.')
     print(f'GPU is {tc/tg:5.2f}x faster than CPU')
     print(f"{' ':*<30}")
+
