@@ -36,3 +36,4 @@ for i, n in enumerate(N):
     time_arr[i] = solve_eigprob(n, device="GPU")
     print(f'[GPU] {n:>4}x{n:<4} matrix: {time_arr[i]:7.4f} seconds.')
     print(f"{' ':*<30}")
+
