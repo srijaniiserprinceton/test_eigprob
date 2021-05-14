@@ -23,7 +23,6 @@ def solve_eigprob(n):
     return ((t2-t1)/N_iter)
 
 # timing computation of different size matrices                                                  \
-                                                                                                  
 N = cp.logspace(1,3.5,6,dtype='int')
 print('--Martix size------non-sparse solver-------sparse solver---------')
 for i, n in enumerate(N):
