@@ -26,7 +26,7 @@ from setuptools.command.test import test as TestCommand
 
 
 setup(
-    name='timeEigpProb',
+    name='timeeigprob',
     version='0.1.',
     packages=find_packages("."), # Finds every folder with __init__.py in it. (Hehe)
 )
