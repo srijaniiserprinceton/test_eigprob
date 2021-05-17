@@ -12,30 +12,32 @@ class eigprob_solver:
         self.solve_eigprob() #assigning solver
 
 
-    def build_sparse_matrix(self,size):
-        '''creating the sparse matrix of a desired size
-        '''
+    def build_sparse_matrix(self, size):
+        '''creating the sparse matrix of a desired size'''
         self.n = size
-        sparse_mat = scipy.sparse.random(self.n,self.n)
+        sparse_mat = scipy.sparse.random(self.n, self.n)
         dense_mat = sparse_mat.todense()
         return dense_mat
 
 
     def solve_eigprob(self):
-        '''choosing the solver and calling respective function
-        '''
-
-        if(self.solver_name == 'numpy'):          # for numpy.linalg.eigh
+        '''choosing the solver and calling respective function'''
+        # setting solver to numpy.linalg.eigh
+        if(self.solver_name == 'numpy'):
             self.solver = np.linalg.eigh
 
-        elif(self.solver_name == 'scipy'):        # for scipy.linalg.eigh
+        # setting solver to scipy.linalg.eigh
+        elif(self.solver_name == 'scipy'):
             self.solver = scipy.linalg.eigh
 
-        elif(self.solver_name == 'scipy_sparse'): # for scipy.sparse.linalg.eigsh
+        # setting solver to scipy.sparse.linalg.eigsh
+        elif(self.solver_name == 'scipy_sparse'):
             self.solver = scipy.sparse.linalg.eigsh
 
-        elif(self.solver_name == 'tensorflow'):   # for tensorflow.linalg.eigh
+        # for tensorflow.linalg.eigh
+        elif(self.solver_name == 'tensorflow'):
             self.solver = tf.linalg.eigh
 
-        else:                                # for cupy.linalg.eigh (not yet available)
+        # for cupy.linalg.eigh (not yet available)
+        else:
             self.solver = None
