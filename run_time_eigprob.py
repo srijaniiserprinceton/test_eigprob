@@ -4,7 +4,7 @@ sys.path.append('./src')
 import main as time_eig
 
 # defining the sizes of the matrix
-N_arr = np.logspace(1,3,3,dtype='int')
+N_arr = np.logspace(1,3.5,6,dtype='int')
 
 # defining the solvers to be used
 solver_arr = np.array(['numpy','scipy','scipy_sparse','tensorflow'])
