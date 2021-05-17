@@ -1,0 +1,22 @@
+#!/bin/bash
+#PBS -N 1.110.120
+#PBS -o mpiout.110.120.n1.log
+#PBS -e mpierr.110.120.n1.log
+#PBS -l select=1:ncpus=32:mpiprocs=32:mem=90gb
+#PBS -l walltime=15:00:00
+#PBS -q large
+echo "Starting at "`date`
+cd /home/g.samarth/Woodard2013/
+export TERM=xterm
+echo $PBS_JOBID
+echo $PBS_NODEFILE
+
+EXECPATH="/home/g.samarth/Woodard2013/heliosampler.py --n 1 --lmin 110 --lmax 120 --maxiter 2000 --usempi --maskell 2"
+PYTHONPATH="/home/g.samarth/anaconda3/bin/python"
+MPIPATH="/home/g.samarth/anaconda3/bin/mpirun"
+OUTFILE="/home/g.samarth/Woodard2013/job_scripts/pyout.110.120.n1.log"
+ERRFILE="/home/g.samarth/Woodard2013/job_scripts/pyerr.110.120.n1.log"
+
+$MPIPATH -n 32 -machinefile $PBS_NODEFILE $PYTHONPATH $EXECPATH >$OUTFILE 2>$ERRFILE
+
+echo "Finished at "`date`
