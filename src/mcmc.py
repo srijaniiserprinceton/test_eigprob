@@ -8,10 +8,11 @@ from schwimmbad import MPIPool
 
 
 NDIM = 2
-NWALKERS = 6
-MAXITER = 8
+NWALKERS = 24
+MAXITER = 4
 MATSIZE = 2048
 SOLVERS = np.array(['numpy', 'scipy', 'scipy_sparse', 'tensorflow'])
+GLOBAL_COUNTER = 0
 
 
 
@@ -22,6 +23,7 @@ def log_likelihood(theta, x, y, yerr):
     sigma2 = yerr ** 2 + model ** 2 * np.exp(2 * np.log(f_true))
     eigSolver.mat = eigSolver.build_sparse_matrix(MATSIZE)
     eigSolver.solver(eigSolver.mat)
+    # GLOBAL_COUNTER = GLOBAL_COUNTER + 1
     return -0.5 * np.sum((y - model) ** 2 / sigma2 + np.log(sigma2))
 
 
@@ -42,6 +44,7 @@ def log_probability(theta, x, y, yerr):
 
 if __name__ == "__main__":
     np.random.seed(123)
+    GLOBAL_COUNTER = 0
 
     # Choose the "true" parameters.
     m_true = -0.9594
@@ -63,6 +66,7 @@ if __name__ == "__main__":
     pos = theta_init + 1e-4 * np.random.randn(NWALKERS, NDIM)
 
     with MPIPool() as pool:
+        GLOBAL_COUNTER = 0
         if not pool.is_master():
             pool.wait()
             sys.exit(0)
@@ -72,4 +76,5 @@ if __name__ == "__main__":
                                         args=(x, y, yerr),
                                         pool=pool)
         sampler.run_mcmc(pos, MAXITER, progress=True)
+    print(f"Total count = {GLOBAL_COUNTER}")
 
