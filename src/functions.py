@@ -1,7 +1,7 @@
 import scipy.sparse
 import scipy.sparse.linalg
 import numpy as np
-import tensorflow as tf
+# import tensorflow as tf
 
 class eigprob_solver:
     def __init__(self, solver_name='numpy'):
@@ -35,8 +35,8 @@ class eigprob_solver:
             self.solver = scipy.sparse.linalg.eigsh
 
         # for tensorflow.linalg.eigh
-        elif(self.solver_name == 'tensorflow'):
-            self.solver = tf.linalg.eigh
+        # elif(self.solver_name == 'tensorflow'):
+        #     self.solver = tf.linalg.eigh
 
         # for cupy.linalg.eigh (not yet available)
         else:

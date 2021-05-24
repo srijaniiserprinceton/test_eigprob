@@ -5,13 +5,14 @@ import sys
 sys.path.append('./src')
 from functions import eigprob_solver as EGS
 from schwimmbad import MPIPool
+from mpi4py import MPI
 
 
 NDIM = 2
 NWALKERS = 24
 MAXITER = 4
 MATSIZE = 2048
-SOLVERS = np.array(['numpy', 'scipy', 'scipy_sparse', 'tensorflow'])
+SOLVERS = np.array(['numpy', 'scipy', 'scipy_sparse']) #, 'tensorflow'])
 GLOBAL_COUNTER = 0
 
 
@@ -67,6 +68,9 @@ if __name__ == "__main__":
 
     with MPIPool() as pool:
         GLOBAL_COUNTER = 0
+        comm = MPI.COMM_WORLD
+        mpirank = comm.Get_rank()
+        print(f"Process {mpirank:3d}: Running MPI")
         if not pool.is_master():
             pool.wait()
             sys.exit(0)
