@@ -4,10 +4,10 @@ sys.path.append('./src')
 import main as time_eig
 
 # defining the sizes of the matrix
-N_arr = np.logspace(1, 3.5, 6, dtype='int')
+N_arr = np.logspace(1, 2, dtype='int')
 
 # defining the solvers to be used
-solver_arr = np.array(['numpy', 'scipy', 'scipy_sparse', 'tensorflow'])
+solver_arr = np.array(['numpy', 'scipy', 'scipy_sparse']) #, 'tensorflow'])
 
 # solving and timing eigenvalue problem using different solvers
 time_arr = time_eig.time_eigprob_solver(N_arr=N_arr, solvers=solver_arr)
