@@ -17,14 +17,19 @@ A_dense = 0.5 * (A_dense + A_dense.T)
 # when creating the sparse matrix
 diag_shift = 50
 
+# defining the diagonals to be used
+main_diag_A = np.diag(A_dense)
+upper_diag_A = np.diag(A_dense,k=diag_shift)
+lower_diag_A = np.diag(A_dense,k=-diag_shift)
+
 # creating the linear operator
 def LinOp_func(v):
     Av = np.zeros((N,))
     
     # constructing the product rule for the three diagonals
-    main_diag_vec = np.diag(A_dense) * v
-    upper_diag_vec = np.diag(A_dense,k=diag_shift) * v[diag_shift:]
-    lower_diag_vec = np.diag(A_dense,k=-diag_shift) * v[:diag_shift]
+    main_diag_vec = main_diag_A * v
+    upper_diag_vec = upper_diag_A * v[diag_shift:]
+    lower_diag_vec = lower_diag_A * v[:diag_shift]
 
     # tiling it accordingly
     Av += main_diag_vec
