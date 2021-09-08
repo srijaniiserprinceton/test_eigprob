@@ -4,14 +4,14 @@ import functions as fn
 
 def time_eigprob_solver(N_arr=np.array([10], dtype='int'),
                         solvers=np.array(['numpy']),
-                        tot_iter=10):
+                        diag_shift=5, tot_iter=10):
     # creating matrix to store the timings
     time_arr = np.zeros((len(solvers), len(N_arr)), dtype='float32')
 
     # looping over different solvers
     for solver_ind, solver in enumerate(solvers):
         # initializing the class for solving using specified solvers
-        time_eigprob_solver = fn.eigprob_solver(solver_name=solver)
+        time_eigprob_solver = fn.eigprob_solver(solver_name=solver, diag_shift=diag_shift)
         # looping over different matrix sizes 
         for size_ind, size in enumerate(N_arr):
             # specifying the size of matrix and buliding it

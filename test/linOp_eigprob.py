@@ -2,8 +2,9 @@ import numpy as np
 from scipy.sparse import random
 from scipy.sparse.linalg import LinearOperator
 import scipy.sparse.linalg
+import time
 
-N = 10
+N = 100
 
 # initializing a completely filled matrix with random values
 A_sparse = random(N,N, density = 1)
@@ -14,7 +15,7 @@ A_dense = 0.5 * (A_dense + A_dense.T)
 
 # choosing the main and the fifth diagonal (upper and lower)
 # when creating the sparse matrix
-diag_shift = 5
+diag_shift = 50
 
 # creating the linear operator
 def LinOp_func(v):
@@ -48,7 +49,7 @@ prod_linOp = L_op.matvec(np.ones(N))
 prod_crude = A * np.ones((N,1))
 
 # raises error if they are not equal. Else nothing is printed
-np.testing.assert_array_almost_equal(np.reshape(prod_linOp,(10,1)), prod_crude)   
+np.testing.assert_array_almost_equal(np.reshape(prod_linOp,(N,1)), prod_crude)   
 
 # solving the eigenvalue problem
 # using numpy.linalg.eig
@@ -61,3 +62,24 @@ print('\n\n')
 print('numpy.linalg.eig // using true matrix // all eigenvalues (sorted):\n',np.sort(eigval_1))
 print('\n\n')
 print('scipy.sparse.linalg.eigsh // using linear operator // N-1 eigenvalues smallest-by-magnitude (sorted):\n', np.sort(eigval_2.real))
+print('\n\n')
+
+# timing the eigenvalue solver using the linear operator
+T1 = time.time()
+for i in range(1000):
+    eigval_1, __ = scipy.sparse.linalg.eigsh(L_op,k=N-1,which='SM')
+
+T2 = time.time()
+
+time_liOp = (T2-T1)
+
+# timing the eigenvalue solver using dense matrix
+T1 = time.time()
+for i in range(1000):
+    eigval_1, __ = np.linalg.eig(A)
+
+T2 = time.time()
+
+time_dense = (T2-T1)
+
+print("Linear operator is faster by: ", time_dense/time_liOp, "times.")
