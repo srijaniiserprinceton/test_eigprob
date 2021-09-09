@@ -58,21 +58,22 @@ np.testing.assert_array_almost_equal(np.reshape(prod_linOp,(N,1)), prod_crude)
 
 # solving the eigenvalue problem
 # using numpy.linalg.eig
-# eigval_1, __ = np.linalg.eig(A)
+eigval_1, __ = np.linalg.eig(A)
 
 # using the scipy.sparse.linalg.eigs
-# eigval_2, __ = scipy.sparse.linalg.eigsh(L_op,k=N-1,which='SM')
+eigval_2, __ = scipy.sparse.linalg.eigsh(L_op,k=N-1,which='SM')
 
-# print('\n\n')
-# print('numpy.linalg.eig // using true matrix // all eigenvalues (sorted):\n',np.sort(eigval_1))
-# print('\n\n')
-# print('scipy.sparse.linalg.eigsh // using linear operator // N-1 eigenvalues smallest-by-magnitude (sorted):\n', np.sort(eigval_2.real))
-# print('\n\n')
+print('\n\n')
+print('numpy.linalg.eig // using true matrix // all eigenvalues (sorted):\n',np.sort(eigval_1))
+print('\n\n')
+print('scipy.sparse.linalg.eigsh // using linear operator // N-1 eigenvalues smallest-by-magnitude (sorted):\n', np.sort(eigval_2.real))
+print('\n\n')
 
-"""
+Niter = 10
+
 # timing the eigenvalue solver using the linear operator
 T1 = time.time()
-for i in range(1000):
+for i in range(Niter):
     eigval_1, __ = scipy.sparse.linalg.eigsh(L_op,k=N-1,which='SM')
 
 T2 = time.time()
@@ -81,7 +82,7 @@ time_liOp = (T2-T1)
 
 # timing the eigenvalue solver using dense matrix
 T1 = time.time()
-for i in range(1000):
+for i in range(Niter):
     eigval_1, __ = np.linalg.eig(A)
 
 T2 = time.time()
@@ -89,4 +90,4 @@ T2 = time.time()
 time_dense = (T2-T1)
 
 print("Linear operator is faster by: ", time_dense/time_liOp, "times.")
-"""
+
